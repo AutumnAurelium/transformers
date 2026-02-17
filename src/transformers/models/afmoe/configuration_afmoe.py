@@ -87,6 +87,8 @@ class AfmoeConfig(PreTrainedConfig):
             Number of shared experts that are always activated for all tokens.
         route_scale (`float`, *optional*, defaults to 1.0):
             Scaling factor applied to routing weights.
+        output_router_logits (`bool`, *optional*, defaults to `False`):
+            Whether or not the router logits should be returned by the model.
         global_attn_every_n_layers (`int`, *optional*, defaults to 4):
             The frequency of full attention layers. Every Nth layer will use full attention, while others use sliding
             window attention.
@@ -156,6 +158,7 @@ class AfmoeConfig(PreTrainedConfig):
         num_experts_per_tok: int | None = 6,
         num_shared_experts: int | None = 2,
         route_scale: float | None = 1.0,
+        output_router_logits: bool | None = False,
         global_attn_every_n_layers: int | None = 4,
         sliding_window: int | None = 1024,
         layer_types: list | None = None,
@@ -187,6 +190,7 @@ class AfmoeConfig(PreTrainedConfig):
         self.num_experts = num_experts
         self.num_shared_experts = num_shared_experts
         self.route_scale = route_scale
+        self.output_router_logits = output_router_logits
         self.attention_bias = False
 
         # Attention specific
