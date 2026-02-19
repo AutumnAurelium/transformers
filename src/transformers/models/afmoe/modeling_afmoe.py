@@ -246,7 +246,7 @@ class AfmoeMoE(nn.Module):
         routed_output = self.experts(hidden_states_flat, selected_experts, top_scores).view(
             batch_size, seq_len, hidden_dim
         )
-        return shared_output + routed_output, router_logits
+        return shared_output + routed_output
 
 
 def rotate_half(x):
@@ -473,10 +473,7 @@ class AfmoeDecoderLayer(GradientCheckpointingLayer):
         # FFN with dual normalization
         residual = hidden_states
         hidden_states = self.pre_mlp_layernorm(hidden_states)
-        if self.moe_enabled:
-            hidden_states, _ = self.mlp(hidden_states)
-        else:
-            hidden_states = self.mlp(hidden_states)
+        hidden_states = self.mlp(hidden_states)
         hidden_states = self.post_mlp_layernorm(hidden_states)
 
         hidden_states = residual + hidden_states
